@@ -1,141 +1,100 @@
-🧩 PuzzleToCoCanDa – BTLO CTF Write-up
+# 🧩 PuzzleToCoCanDa – BTLO CTF Write-up
 
-Welcome to my simple and fun walkthrough of the PuzzleToCoCanDa challenge on Blue Team Labs Online (BTLO)! In this challenge, I investigated a suspicious phishing email and found some hidden surprises – including an alien criminal demanding CooCoins 😅
+> A phishing email, spoofed headers, Base64-encoded alien ransom, and a villain named Pestero Negeja?  
+> This Blue Team Labs Online challenge was out of this world! 🛸
 
-📅 Challenge Summary
+---
 
-We received a strange email with:
+## 📌 Challenge Summary
 
-A fake sender
+We received a **suspicious phishing email** with:
 
-A suspicious attachment
+- A forged sender address
+- Disguised attachment pretending to be a PDF
+- Hidden messages inside files
 
-A hidden message
+🎯 **Goal:** Find out who sent the email, what service they used, and what secrets the attachments were hiding.
 
-Goal: Find out who sent the email, what service they used, and what was hidden inside the attachments.
+---
 
-📧 Step 1: Email Header Analysis
+## 📬 Step 1: Email Header Analysis
 
-What I found:
+Here’s what I found in the header:
 
-Field
+| Field             | Value                          |
+|------------------|---------------------------------|
+| From             | `billjobs@microapple.com` (spoofed) |
+| Return-Path      | `billjobs@microapple.com`       |
+| SPF Check        | ❌ Failed (unauthorized sender) |
+| Source IP        | `93.99.104.210`                |
+| Email Service    | `emkei.cz` (spoofing site)     |
+| Reply-To         | `negeja3921@pashter.com`       |
 
-Value
+🕵️ **Conclusion:** The attacker used [emkei.cz](https://emkei.cz/) to spoof the email sender.
 
-From
+---
 
-billjobs@microapple.com (spoofed)
+## 📦 Step 2: Unpacking the Attachment
 
-Return-Path
+The file was named `PuzzleToCoCanDa.pdf`, but when I checked it:
 
-Same
-
-SPF Check
-
-❌ Failed (unauthorized sender)
-
-Source IP
-
-93.99.104.210
-
-Email Service Used
-
-emkei.cz (spoofing site)
-
-Reply-To
-
-negeja3921@pashter.com
-
-🔎 The attacker used emkei.cz to spoof the email.
-
-📁 Step 2: Unpacking the Attachment
-
-The file looked like a PDF: PuzzleToCoCanDa.pdfBut when I ran the file command:
-
+```bash
 file PuzzleToCoCanDa.pdf
 # Output: Zip archive data...
 
-So I renamed it to .zip and extracted it.
+It was actually a ZIP file! After renaming and extracting:
 
-Files inside:
+Contents:
 
-DaughtersCrown.jpeg
+    DaughtersCrown.jpeg
 
-GoodiesMajor.pdf
+    GoodiesMajor.pdf
 
-Money.xlsx
+    Money.xlsx
 
-$-Money.xlsx
+    $-Money.xlsx
 
-🔍 Step 3: Finding the Attacker
+🔍 Step 3: Identifying the Attacker
 
-I ran exiftool on GoodiesMajor.pdf:
+Ran exiftool on GoodiesMajor.pdf:
 
 exiftool GoodiesMajor.pdf
 
-Author: Pestero Negeja✅ That's our attacker!
+Metadata:
 
-🤮 Step 4: Decoding the Message
+    Author: Pestero Negeja
 
-I opened Money.xlsx and found some Base64-encoded text.
+🎯 Attacker Identified: Pestero Negeja
+🔓 Step 4: Decoding the Hidden Message
 
+Opened Money.xlsx and found Base64-encoded text.
 Used CyberChef to decode it.
 
-Result:
+📜 Decoded Message:
 
 The Martian Colony, Beside Interplanetary Spaceport.
 Send me 1 Billion CooCoins 💰 in cash 🤑 with a spaceship 🚀
 
-👽 The attacker is pretending to be on The Martian Colony.
+🪐 Attacker's Location: The Martian Colony 😄
+🌐 Step 5: Finding the Command & Control Domain
 
-🔗 Step 5: C2 Domain
+From the email’s "Reply-To" address:
+📧 negeja3921@pashter.com
 
-From the "Reply-To" address:
-
-negeja3921@pashter.com
-
-The attacker might be using:
-
-pashter.com as their Command & Control domain.
-
-✅ Final Answers (TL;DR)
-
-Question
-
-Answer
-
-Email service used
-
-emkei.cz
-
-Reply-To address
-
-negeja3921@pashter.com
-
-File disguise
-
-ZIP file spoofed as PDF
-
-Attacker name
-
-Pestero Negeja
-
-Attacker location
-
-The Martian Colony
-
-C2 Domain
-
-pashter.com
-
-🔧 Tools I Used
-
-Notepad++ – View email headers
-
-file (Linux) – Detect real file types
-
-CyberChef – Decode base64
-
-ExifTool – Extract file metadata
-
-VirusTotal – Scan suspicious files
+The domain pashter.com is likely being used as the C2 server.
+✅ Final Answers (Quick Summary)
+❓ Question	✅ Answer
+Email service used by attacker	emkei.cz
+Reply-To email address	negeja3921@pashter.com
+What was the attachment really?	A ZIP file disguised as a PDF
+Attacker’s name	Pestero Negeja
+Attacker's location	The Martian Colony
+C2 domain	pashter.com
+🛠️ Tools I Used
+Tool	Purpose
+Notepad++	Read email headers
+file	Check actual file types
+CyberChef	Decode Base64 messages
+ExifTool	View metadata of PDF/Office files
+VirusTotal	Scan attachments for threats
+emldump.py	(optional) Extract .eml file parts
