@@ -1,94 +1,141 @@
-# Email-Phishing-Analyzer-The-Planet's-Prestige-Challenge
-This repository contains the work done on the "The Planet's Prestige" challenge from Blue Team Labs.
-
 🧩 PuzzleToCoCanDa – BTLO CTF Write-up
-🚀 Challenge Summary
 
-This challenge is from Blue Team Labs Online. We received a phishing email with suspicious attachments. The goal was to investigate and answer questions like:
+Welcome to my simple and fun walkthrough of the PuzzleToCoCanDa challenge on Blue Team Labs Online (BTLO)! In this challenge, I investigated a suspicious phishing email and found some hidden surprises – including an alien criminal demanding CooCoins 😅
 
-    Who sent the email?
+📅 Challenge Summary
 
-    What service did they use?
+We received a strange email with:
 
-    Where is the attacker "located"?
+A fake sender
 
-    What’s hidden in the attachments?
+A suspicious attachment
 
-📬 Email Header Analysis
+A hidden message
 
-    From (spoofed): billjobs@microapple.com
+Goal: Find out who sent the email, what service they used, and what was hidden inside the attachments.
 
-    Return-Path: Same as above
+📧 Step 1: Email Header Analysis
 
-    SPF Check: ❌ Failed (not authorized)
+What I found:
 
-    Source IP: 93.99.104.210
+Field
 
-    Email Service Used: emkei.cz (a spoofing email tool)
+Value
 
-    Reply-To Address: negeja3921@pashter.com
+From
 
-✅ Conclusion: The attacker used emkei.cz to spoof the email address and send a fake message.
-📁 Attachment Analysis
+billjobs@microapple.com (spoofed)
 
-We got a file named PuzzleToCoCanDa.pdf.
+Return-Path
 
-But when we checked it using the file command:
+Same
+
+SPF Check
+
+❌ Failed (unauthorized sender)
+
+Source IP
+
+93.99.104.210
+
+Email Service Used
+
+emkei.cz (spoofing site)
+
+Reply-To
+
+negeja3921@pashter.com
+
+🔎 The attacker used emkei.cz to spoof the email.
+
+📁 Step 2: Unpacking the Attachment
+
+The file looked like a PDF: PuzzleToCoCanDa.pdfBut when I ran the file command:
 
 file PuzzleToCoCanDa.pdf
 # Output: Zip archive data...
 
-🧠 It was actually a ZIP file, not a PDF!
+So I renamed it to .zip and extracted it.
 
-After unzipping, we got:
+Files inside:
 
-    DaughtersCrown.jpeg
+DaughtersCrown.jpeg
 
-    GoodiesMajor.pdf
+GoodiesMajor.pdf
 
-    Money.xlsx
+Money.xlsx
 
-    $-Money.xlsx
+$-Money.xlsx
 
-📄 Who is the Attacker?
+🔍 Step 3: Finding the Attacker
 
-We checked metadata from the file GoodiesMajor.pdf using exiftool.
+I ran exiftool on GoodiesMajor.pdf:
 
-Author: Pestero Negeja
-🧑‍💻 That’s the name of the attacker.
-🧪 What Was Hidden?
+exiftool GoodiesMajor.pdf
 
-In Money.xlsx, we found a Base64-encoded message.
-We decoded it using CyberChef.
+Author: Pestero Negeja✅ That's our attacker!
 
-📝 Decoded message:
+🤮 Step 4: Decoding the Message
+
+I opened Money.xlsx and found some Base64-encoded text.
+
+Used CyberChef to decode it.
+
+Result:
 
 The Martian Colony, Beside Interplanetary Spaceport.
 Send me 1 Billion CooCoins 💰 in cash 🤑 with a spaceship 🚀
 
-😄 Looks like our attacker is an alien criminal!
-🕸️ Command & Control (C2) Domain
+👽 The attacker is pretending to be on The Martian Colony.
 
-From the Reply-To address: negeja3921@pashter.com
-➡️ The domain pashter.com is likely the attacker’s C2 (Command & Control).
-✅ Final Answers (For the Challenge)
-❓ Question	✅ Answer
-Email service used by attacker	emkei.cz
-Reply-To email address	negeja3921@pashter.com
-Spoofed attachment type	ZIP file (disguised as PDF)
-Name of the attacker	Pestero Negeja
-Attacker’s "location"	The Martian Colony
-Command & Control domain	pashter.com
-🛠️ Tools I Used
+🔗 Step 5: C2 Domain
 
-    Notepad++ – For checking email headers
+From the "Reply-To" address:
 
-    CyberChef – For decoding Base64
+negeja3921@pashter.com
 
-    ExifTool – For checking PDF metadata
+The attacker might be using:
 
-    file (Linux) – To identify file types
+pashter.com as their Command & Control domain.
 
-    emldump.py – (Optional) to extract email attachments
+✅ Final Answers (TL;DR)
 
-    VirusTotal – To scan suspicious files
+Question
+
+Answer
+
+Email service used
+
+emkei.cz
+
+Reply-To address
+
+negeja3921@pashter.com
+
+File disguise
+
+ZIP file spoofed as PDF
+
+Attacker name
+
+Pestero Negeja
+
+Attacker location
+
+The Martian Colony
+
+C2 Domain
+
+pashter.com
+
+🔧 Tools I Used
+
+Notepad++ – View email headers
+
+file (Linux) – Detect real file types
+
+CyberChef – Decode base64
+
+ExifTool – Extract file metadata
+
+VirusTotal – Scan suspicious files
