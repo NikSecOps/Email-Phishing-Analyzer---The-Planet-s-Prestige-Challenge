@@ -64,6 +64,15 @@ Since the Reply-To address was `negeja3921@pashter.com`, I figured that **pashte
 <img width="2092" height="1144" alt="screely-1752616915464" src="https://github.com/user-attachments/assets/2bdf92f3-dfeb-4b8e-a16c-df3a57e4dcd4" />
 
 > This screenshot captures the use of [CyberChef](https://gchq.github.io/CyberChef/) to decode a suspicious **Base64-encoded string** extracted from a phishing email attachment.
+
+<img width="2120" height="1262" alt="screely-1752617096363" src="https://github.com/user-attachments/assets/52609bed-c6ec-4eb1-b1fe-ad3ba330453f" />
+
+> A Magic Number (also called a file signature or magic bytes) is a unique sequence of bytes at the beginning of a file that identifies its format, regardless of the file extension.
+
+
+<img width="2033" height="1262" alt="screely-1752617268683" src="https://github.com/user-attachments/assets/16a48efe-c7c2-4579-9bf2-23e9aabc0daa" />
+> This screenshot shows the extracted contents of the decoded `.zip` file named **`PuzzleToCooCanDa`**, which was Base64-encoded in the phishing email. The ZIP archive unpacks into multiple suspicious files, likely part of a social engineering puzzle or malware lure.
+
 ## ✅ Final Summary
 
 Here’s what I found out:
