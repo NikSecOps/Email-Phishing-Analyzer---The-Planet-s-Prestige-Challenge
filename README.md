@@ -59,7 +59,7 @@ Since the Reply-To address was `negeja3921@pashter.com`, I figured that **pashte
 
 ---
 ![Raw Email Header in Notepad++]<img width="2118" height="1214" alt="screely-1752616449276" src="https://github.com/user-attachments/assets/683a53eb-7069-4159-87f7-e9c15655a435" />
-
+> The email header of the suspicious message titled **"A Hope to CooCamba"** is opened in Notepad++ for forensic inspection.
 ## ✅ Final Summary
 
 Here’s what I found out:
