@@ -58,6 +58,7 @@ Send me 1 Billion CooCoins 💰 in cash 🤑 with a spaceship 🚀
 Since the Reply-To address was `negeja3921@pashter.com`, I figured that **pashter.com** was the domain being used for command and control.
 
 ---
+![Raw Email Header in Notepad++]<img width="2118" height="1214" alt="screely-1752616449276" src="https://github.com/user-attachments/assets/683a53eb-7069-4159-87f7-e9c15655a435" />
 
 ## ✅ Final Summary
 
