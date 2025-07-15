@@ -60,6 +60,10 @@ Since the Reply-To address was `negeja3921@pashter.com`, I figured that **pashte
 ---
 ![Raw Email Header in Notepad++]<img width="2118" height="1214" alt="screely-1752616449276" src="https://github.com/user-attachments/assets/683a53eb-7069-4159-87f7-e9c15655a435" />
 > The email header of the suspicious message titled **"A Hope to CooCamba"** is opened in Notepad++ for forensic inspection.
+
+<img width="2092" height="1144" alt="screely-1752616915464" src="https://github.com/user-attachments/assets/2bdf92f3-dfeb-4b8e-a16c-df3a57e4dcd4" />
+
+> This screenshot captures the use of [CyberChef](https://gchq.github.io/CyberChef/) to decode a suspicious **Base64-encoded string** extracted from a phishing email attachment.
 ## ✅ Final Summary
 
 Here’s what I found out:
