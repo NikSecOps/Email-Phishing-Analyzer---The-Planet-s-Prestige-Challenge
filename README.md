@@ -1,8 +1,3 @@
-# 🧩 PuzzleToCoCanDa – BTLO CTF Write-up
-
-> A phishing email, spoofed headers, Base64-encoded alien ransom, and a villain named Pestero Negeja?  
-> This Blue Team Labs Online challenge was out of this world! 🛸
-
 # 🧩 PuzzleToCoCanDa – BTLO Phishing CTF Write-up
 
 This was a fun challenge on Blue Team Labs Online where I had to investigate a suspicious phishing email. The email looked like it came from “billjobs@microapple.com”, but it was clearly fake. Here's how I solved it step-by-step.
