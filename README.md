@@ -38,7 +38,7 @@ Here’s what I found in the header:
 
 The file was named `PuzzleToCoCanDa.pdf`, but when I checked it:
 
-```bash
+
 file PuzzleToCoCanDa.pdf
 # Output: Zip archive data...
 
