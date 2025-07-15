@@ -3,98 +3,87 @@
 > A phishing email, spoofed headers, Base64-encoded alien ransom, and a villain named Pestero Negeja?  
 > This Blue Team Labs Online challenge was out of this world! 🛸
 
----
+# 🧩 PuzzleToCoCanDa – BTLO Phishing CTF Write-up
 
-## 📌 Challenge Summary
-
-We received a **suspicious phishing email** with:
-
-- A forged sender address
-- Disguised attachment pretending to be a PDF
-- Hidden messages inside files
-
-🎯 **Goal:** Find out who sent the email, what service they used, and what secrets the attachments were hiding.
+This was a fun challenge on Blue Team Labs Online where I had to investigate a suspicious phishing email. The email looked like it came from “billjobs@microapple.com”, but it was clearly fake. Here's how I solved it step-by-step.
 
 ---
 
-## 📬 Step 1: Email Header Analysis
+## 📧 Step 1: Checking the Email Header
 
-Here’s what I found in the header:
+When I looked at the email header, I saw that the **SPF check failed**, which means the sender wasn’t authorized to send from that domain. It looked like the email came from `billjobs@microapple.com`, but the real sender used a spoofing tool called **emkei.cz**.
 
-| Field             | Value                          |
-|------------------|---------------------------------|
-| From             | `billjobs@microapple.com` (spoofed) |
-| Return-Path      | `billjobs@microapple.com`       |
-| SPF Check        | ❌ Failed (unauthorized sender) |
-| Source IP        | `93.99.104.210`                |
-| Email Service    | `emkei.cz` (spoofing site)     |
-| Reply-To         | `negeja3921@pashter.com`       |
-
-🕵️ **Conclusion:** The attacker used [emkei.cz](https://emkei.cz/) to spoof the email sender.
+There was also a **Reply-To** address: `negeja3921@pashter.com`. That’s probably where they expected replies to go.
 
 ---
 
-## 📦 Step 2: Unpacking the Attachment
+## 📂 Step 2: The Suspicious Attachment
 
-The file was named `PuzzleToCoCanDa.pdf`, but when I checked it:
+The email had an attachment called `PuzzleToCoCanDa.pdf`. But when I used the `file` command in Linux to check it, it said:
+
+Zip archive data...
 
 
-file PuzzleToCoCanDa.pdf
-# Output: Zip archive data...
+So it wasn’t a PDF — it was actually a **ZIP file**. I renamed it and unzipped it.
 
-It was actually a ZIP file! After renaming and extracting:
+Inside the ZIP file, I found:
+- A picture: `DaughtersCrown.jpeg`
+- A PDF: `GoodiesMajor.pdf`
+- Two Excel files: `Money.xlsx` and `$-Money.xlsx`
 
-Contents:
+---
 
-    DaughtersCrown.jpeg
+## 🕵️ Step 3: Who Sent This?
 
-    GoodiesMajor.pdf
+I used `exiftool` on the PDF file (`GoodiesMajor.pdf`) to see if there was any hidden metadata. Boom — it showed the **author** as:
 
-    Money.xlsx
+Pestero Negeja
 
-    $-Money.xlsx
 
-🔍 Step 3: Identifying the Attacker
+So that’s the name of the person behind this phishing email.
 
-Ran exiftool on GoodiesMajor.pdf:
+---
 
-exiftool GoodiesMajor.pdf
+## 🔍 Step 4: What’s Inside the Excel File?
 
-Metadata:
+I opened the Excel file and saw some weird Base64 text in it. I copied it and pasted it into [CyberChef](https://gchq.github.io/CyberChef/), which decoded it.
 
-    Author: Pestero Negeja
-
-🎯 Attacker Identified: Pestero Negeja
-🔓 Step 4: Decoding the Hidden Message
-
-Opened Money.xlsx and found Base64-encoded text.
-Used CyberChef to decode it.
-
-📜 Decoded Message:
+Here’s the message I got:
 
 The Martian Colony, Beside Interplanetary Spaceport.
 Send me 1 Billion CooCoins 💰 in cash 🤑 with a spaceship 🚀
 
-🪐 Attacker's Location: The Martian Colony 😄
-🌐 Step 5: Finding the Command & Control Domain
 
-From the email’s "Reply-To" address:
-📧 negeja3921@pashter.com
+😂 So yeah, the attacker is pretending to be on Mars. Fun twist!
 
-The domain pashter.com is likely being used as the C2 server.
-✅ Final Answers (Quick Summary)
-❓ Question	✅ Answer
-Email service used by attacker	emkei.cz
-Reply-To email address	negeja3921@pashter.com
-What was the attachment really?	A ZIP file disguised as a PDF
-Attacker’s name	Pestero Negeja
-Attacker's location	The Martian Colony
-C2 domain	pashter.com
-🛠️ Tools I Used
-Tool	Purpose
-Notepad++	Read email headers
-file	Check actual file types
-CyberChef	Decode Base64 messages
-ExifTool	View metadata of PDF/Office files
-VirusTotal	Scan attachments for threats
-emldump.py	(optional) Extract .eml file parts
+---
+
+## 🌐 Step 5: Command and Control Domain
+
+Since the Reply-To address was `negeja3921@pashter.com`, I figured that **pashter.com** was the domain being used for command and control.
+
+---
+
+## ✅ Final Summary
+
+Here’s what I found out:
+
+- The attacker used **emkei.cz** to spoof the email
+- The real attachment was a ZIP file pretending to be a PDF
+- The attacker’s name is **Pestero Negeja**
+- They’re pretending to be in **The Martian Colony**
+- Their C2 domain is probably **pashter.com**
+
+---
+
+## 🧠 What I Learned
+
+- Always check the **SPF/DKIM/DMARC** in email headers
+- Use the `file` command to find disguised files
+- Metadata can reveal important clues
+- CyberChef is super useful for decoding
+- Phishing emails can be creative (and weird)
+
+---
+
+Thanks for reading! 🙌
